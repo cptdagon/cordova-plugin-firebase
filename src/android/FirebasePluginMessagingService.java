@@ -98,8 +98,29 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
       text = remoteMessage.getNotification().getBody();
       id = remoteMessage.getMessageId();
     } else {
-      title = data.get("title");
-      text = data.get("text");
+      // overriding default generic behaviour for BIMA messaging services
+      String jsonstring;
+      String notType;
+      String doctorName;
+      String answer;
+      jsonstring = data.get("message");
+      try{
+        JSONObject object = new JSONObject(jsonstring);
+        notType = object.getString("notificationType");
+        if (notType == "AAD_EVENT_ANSWERED"){
+          JSONObject subObject = object.getJSONObject("notificationData");
+          JSONArray subSubArray = subObject.getJSONArray("aadEventItems");
+          JSONoBject subSubObject = subSubArray.getJSONObject(0);
+          doctorName = subSubObject.getString("doctorName");
+          answer = subSubObject.getString("answer");
+          text = doctorName + ": " + answer;
+          title = "ask a bima doctor reply";
+        }
+      } catch{
+        title = data.get("title");
+        text = data.get("text");
+      }
+      
       id = data.get("id");
       sound = data.get("sound");
       lights = data.get("lights"); //String containing hex ARGB color, miliseconds on, miliseconds off, example: '#FFFF00FF,1000,3000'
