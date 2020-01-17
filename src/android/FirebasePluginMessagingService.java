@@ -115,9 +115,9 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
           doctorName = subSubObject.getString("doctorName");
           answer = subSubObject.getString("answer");
           text = doctorName + ": " + answer;
-          title = "ask a BIMA doctor reply";
+          title = "Ask a BIMA doctor reply";
         }
-      } catch{
+      } catch(){
         title = data.get("title");
         text = data.get("text");
       }
