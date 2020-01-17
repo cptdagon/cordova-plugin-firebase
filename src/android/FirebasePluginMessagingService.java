@@ -103,8 +103,9 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
       String notType;
       String doctorName;
       String answer;
-      jsonstring = data.get("message");
+      
       try{
+        jsonstring = data.get("message");
         JSONObject object = new JSONObject(jsonstring);
         notType = object.getString("notificationType");
         if (notType == "AAD_EVENT_ANSWERED"){
@@ -114,7 +115,7 @@ public class FirebasePluginMessagingService extends FirebaseMessagingService {
           doctorName = subSubObject.getString("doctorName");
           answer = subSubObject.getString("answer");
           text = doctorName + ": " + answer;
-          title = "ask a bima doctor reply";
+          title = "ask a BIMA doctor reply";
         }
       } catch{
         title = data.get("title");
